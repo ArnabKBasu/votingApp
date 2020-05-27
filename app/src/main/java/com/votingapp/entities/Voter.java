@@ -1,10 +1,15 @@
 package com.votingapp.entities;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.votingapp.entities.Candidate;
 
 import java.sql.*;
-
+import java.io.*;
 import java.io.Serializable;
+import java.util.Base64;
 
 public class Voter implements Serializable {
     private String name;
@@ -114,7 +119,8 @@ public class Voter implements Serializable {
         this.address = address;
     }
 
-    public String  execute(String EPIC,String pass, int CASE){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String  execute(String EPIC, String pass, int CASE){
         String sendString="";
         String originalPass="";
         ResultSet rs=null;
@@ -221,14 +227,108 @@ public class Voter implements Serializable {
 
 
                 case 5:
-                    if( secondTry )
+                    boolean resultStr = true;
+                    String knownStr = null;
+                    File sentPic = new File("sentPic.jpg");
+                    File knownPic = new File("knownPic.jpg");
+
+                    con = DriverManager.getConnection(
+                            "jdbc:mysql://localhost:3306/voterdb", "root", "");
+
+                    stmt=con.createStatement();
+
+                    rs=stmt.executeQuery("select image from photographs where epic = '"+EPIC+"'");
+
+                    while(rs.next())
+                    {
+                        knownStr = rs.getString(1);
+                    }
+                    rs.close();
+                    stmt.close();
+                    con.close();
+
+                    try {
+                        byte[] byteArray1 = Base64.getDecoder().decode(pass);
+                        byte[] byteArray2 = Base64.getDecoder().decode(knownStr);
+                        if (!sentPic.exists()) {
+                            if (!sentPic.createNewFile()){
+                                resultStr = false;
+                                sendString = "INVALID";
+                                sentPic.delete();
+                                break;
+                            }
+                        }
+                        else {
+                            resultStr = false;
+                            sendString = "INVALID";
+                            sentPic.delete();
+                            break;
+                        }
+                        if (!knownPic.exists()) {
+                            if (!knownPic.createNewFile()) {
+                                resultStr = false;
+                                sendString = "INVALID";
+                                knownPic.delete();
+                                break;
+                            }
+                        }
+                        else {
+                            resultStr = false;
+                            knownPic.delete();
+                            sendString = "INVALID";
+                            break;
+                        }
+                        FileOutputStream fos = new FileOutputStream(sentPic);
+                        fos.write(byteArray1);
+                        fos.close();
+                        fos = new FileOutputStream(knownPic);
+                        fos.write(byteArray2);
+                        fos.close();
+                        System.out.println("Image Received");
+
+                        Runtime rt = Runtime.getRuntime();
+                        String[] commands = {"py", "script.py"};
+                        Process proc = rt.exec(commands);
+
+                        BufferedReader stdInput = new BufferedReader(new
+                                InputStreamReader(proc.getInputStream()));
+
+                        BufferedReader stdError = new BufferedReader(new
+                                InputStreamReader(proc.getErrorStream()));
+
+                        String s = null;
+                        while ((s = stdInput.readLine()) != null) {
+                            System.out.println(s);
+                            if(s.equals("False"))
+                            {
+                                resultStr = false;
+                            }
+                        }
+
+                        while ((s = stdError.readLine()) != null) {
+                            System.out.println(s);
+                            resultStr = false;
+                        }
+
+                        sentPic.delete();
+                        knownPic.delete();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        resultStr = false;
+                        sentPic.delete();
+                        knownPic.delete();
+                    }
+/*                    FileWriter myWriter = new FileWriter("pic.txt");
+                    myWriter.write(pass);
+                    myWriter.close();*/
+                    if( resultStr )
                     {
                         sendString = "VALID";
-                        secondTry = false;
                     }
-                    else{
+                    else {
                         sendString = "INVALID";
-                        secondTry = true;
                     }
                     break;
 
@@ -263,5 +363,3 @@ public class Voter implements Serializable {
     }
 
 }
-
-
