@@ -1,1 +1,33 @@
-install xampp
+Copy the Server folder from the git repository to another folder(outside the repository).
+Extract the "databases.zip"
+
+
+Install xampp with all the components.
+And always run xampp with administrative priviledges (check "run as adminitrator" in properties)
+Start Apache and MySql
+
+
+Open browser and goto "localhost/phpmyadmin" then create new databases namely "electiondb" and "voterdb".
+Then import the sql files in the "databases.zip" with the import option in respective databases
+
+
+Add the path of the jar file to CLASSPATH ENVIRONMENTAL VARIABLE (If CLASSPATH is not present then create one)
+(Also add another path "."(without quotation) to CLASSPATH)
+
+
+Install "Microsoft Visual Studio C++ Build Tools" (download only C++ build tools) (1.2 GB download & 4-5 GB space req)
+(Uninstall any newer python 3)
+Install python 3.8 then open the python installation folder (can be done by OPEN FILE LOCATION from start menu)
+Add the path of "script" folder to PATH ENVIRONMENTAL VARIABLE
+Then open CMD as ADMIN and execute these commands IN ORDER-
+pip install --upgrade pip
+pip intsall --upgrade setuptools
+pip install cmake
+pip install face-recognition
+
+
+Reserve 192.168.0.110 as IP for your Computer in the ROUTER (Should be in DHCP reservations)
+
+ALL DONE!
+Run the Server on cmd in the "Server" Folder BY-
+java Server

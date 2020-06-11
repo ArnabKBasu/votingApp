@@ -13,7 +13,6 @@ class Server{
     private Statement stmt=null;
     private String originalPass="";
     private String sendString="";
-    private Boolean secondTry = false;
     public static  void main(String args[]){
         try {
            
@@ -59,10 +58,6 @@ class Server{
 
                 }else{
                     Voter v =new Voter();
-                    v.setSecondTry(secondTry);
-                    if(secondTry)
-                    { secondTry = false; }
-                    else { secondTry = true; }
                     sendString = v.execute(EPIC, pass,type);                   
                     System.out.println(EPIC);
 
