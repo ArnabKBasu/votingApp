@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class FacialRecognition extends AppCompatActivity {
     private ImageView capturedImage;
     int countFc = 0;
     private String capImage;
+    private ProgressBar pBarfc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class FacialRecognition extends AppCompatActivity {
         voter = (Voter) g.getSerializableExtra("Voter");
         successFlag = true;
         logout = false;
+        pBarfc = (ProgressBar) findViewById(R.id.pBarfc);
+        pBarfc.setVisibility(View.INVISIBLE);
 
         final Button fcCapture = (Button) findViewById(R.id.faceRecCaptureButton);
         fcCapture.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +63,9 @@ public class FacialRecognition extends AppCompatActivity {
 
         submit = (Button) findViewById(R.id.faceRecSubmitButton);
         submit.setEnabled(false);
+        submit.setBackgroundColor(0xFFBFBFBF);
+        submit.setTextColor(0xFF858383);
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,9 +73,12 @@ public class FacialRecognition extends AppCompatActivity {
                     finish();
                 if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY))
                 {
+                    pBarfc.setVisibility(View.VISIBLE);
                     FacialRecognition.VoterDB ob = new FacialRecognition.VoterDB();
                     ob.execute(voter.getEpic_no()+" "+capImage);
                     submit.setEnabled(false);
+                    submit.setBackgroundColor(0xFFBFBFBF);
+                    submit.setTextColor(0xFF858383);
                 }
             }
         });
@@ -86,11 +96,19 @@ public class FacialRecognition extends AppCompatActivity {
         if(capturedImage.getDrawable() != null)
         {
             fcCapture.setEnabled(false);
+            fcCapture.setBackgroundColor(0xFFBFBFBF);
+            fcCapture.setTextColor(0xFF858383);
             tv.setText("Image has been captured");
             fcSubmit.setEnabled(true);
+            fcSubmit.setBackgroundColor(0xFF0099CC);
+            fcSubmit.setTextColor(0xFFFFFFFF);
+
         }
         else{
             fcSubmit.setEnabled(false);
+            fcSubmit.setBackgroundColor(0xFFBFBFBF);
+            fcSubmit.setTextColor(0xFF858383);
+
         }
     }
 
@@ -172,6 +190,7 @@ public class FacialRecognition extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void _void) {
+            pBarfc.setVisibility(View.INVISIBLE);
             if(countFc >= 3){
                 finish();
             }
@@ -188,6 +207,8 @@ public class FacialRecognition extends AppCompatActivity {
                         logout = true;
                         submit.setText("Logout");
                         submit.setEnabled(true);
+                        submit.setBackgroundColor(0xFF0099CC);
+                        submit.setTextColor(0xFFFFFFFF);
                     } else {
                         capturedImage = (ImageView) findViewById(R.id.capturedImage);
                         capturedImage.setImageDrawable(null);
@@ -195,7 +216,12 @@ public class FacialRecognition extends AppCompatActivity {
 
                         final Button fcCapture = (Button) findViewById(R.id.faceRecCaptureButton);
                         fcCapture.setEnabled(true);
+                        fcCapture.setBackgroundColor(0xFF0099CC);
+                        fcCapture.setTextColor(0xFFFFFFFF);
                         submit.setEnabled(false);
+                        submit.setBackgroundColor(0xFFBFBFBF);
+                        submit.setTextColor(0xFF858383);
+
 
                         if (countFc == 1) {
                             tv.setText("FAILED! You have 2 chances left");

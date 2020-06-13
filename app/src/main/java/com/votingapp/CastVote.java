@@ -2,6 +2,7 @@ package com.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
@@ -24,6 +25,7 @@ public class CastVote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cast_vote);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Intent g=getIntent();
 

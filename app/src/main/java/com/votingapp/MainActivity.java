@@ -3,12 +3,14 @@ package com.votingapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.net.Socket;
 public class MainActivity extends AppCompatActivity {
     private String epic="";
     private String pass="";
+    private ProgressBar pBarLogin;
     int flag = 0;
 
     @Override
@@ -48,10 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
     void loadActivity(){
         setContentView(R.layout.activity_main);
-        Button login = (Button) findViewById(R.id.login);
+        pBarLogin = (ProgressBar) findViewById(R.id.pBarLogin);
+        pBarLogin.setVisibility(View.INVISIBLE);
+        final Button login = (Button) findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                login.setEnabled(false);
+                login.setBackgroundColor(0xFFBFBFBF);
+                login.setTextColor(0xFF858383);
+                pBarLogin.setVisibility(View.VISIBLE);
                 sendData(v);
             }
         });
@@ -110,18 +119,24 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String str) {
+            Button login = (Button) findViewById(R.id.login);
+            login.setEnabled(true);
+            login.setBackgroundColor(0xFF0099CC);
+            login.setTextColor(0xFFFFFFFF);
             str = str.trim();
-
             if (str.equals("INVALID")) {
+                pBarLogin.setVisibility(View.INVISIBLE);
                 Toast.makeText(MainActivity.this, "Invalid Login Details", Toast.LENGTH_LONG).show();
             }
             else {
+                pBarLogin.setVisibility(View.INVISIBLE);
                 Intent i = new Intent(MainActivity.this, WelcomePage.class);
                 i.putExtra("EPIC", epic);
                 i.putExtra("PASS", pass);
                 i.putExtra("DETAILS", str);
 
                 startActivity(i);
+
             }
 
         }
