@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -50,7 +51,7 @@ public class VoteManager{
     }
 
     public void startTimer() {
-        cdTimer = new CountDownTimer(11000, 1000) {
+        cdTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 TextView timeT = (TextView) ((Activity)m_context).findViewById(R.id.timeText);
@@ -66,8 +67,9 @@ public class VoteManager{
                 radioG = (RadioGroup) ((Activity)m_context).findViewById(R.id.radiogroup_vote);
                 confirmButton.setText("Logout");
                 timeT.setText("Time's Up!");
-                radioG.setVisibility(View.INVISIBLE);
+                radioG.setVisibility(View.GONE);
                 timeUp = true;
+                ((Activity)m_context).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         };
         cdTimer.start();
@@ -198,7 +200,7 @@ public class VoteManager{
     public void updatedUI(){
         TextView upDetails = (TextView) ((Activity)m_context).findViewById(R.id.upload);
         Button nextB = (Button) ((Activity)m_context).findViewById(R.id.viewButton);
-        ProgressBar progressB = (ProgressBar) ((Activity)m_context).findViewById(R.id.progressBar);
+        ProgressBar progressB = (ProgressBar) ((Activity)m_context).findViewById(R.id.progressBarUpload);
         upDetails.setText(success);
         progressB.setVisibility(View.INVISIBLE);
         if(flag == 0)

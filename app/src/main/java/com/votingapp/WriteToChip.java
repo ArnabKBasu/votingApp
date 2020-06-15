@@ -54,7 +54,7 @@ public class WriteToChip extends AppCompatActivity {
         textWarning = (TextView) findViewById(R.id.textView18);
         btnExit = (Button) findViewById(R.id.buttonExit);
         //btnExit.setVisibility(View.INVISIBLE);
-        pBar = findViewById(R.id.progressBar);
+        pBar = findViewById(R.id.progressBarChip);
 
         Intent g = getIntent();
         voter = (Voter) g.getSerializableExtra("Voter");

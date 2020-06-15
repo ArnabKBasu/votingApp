@@ -28,7 +28,7 @@ public class UploadToServer extends AppCompatActivity {
         Intent g = getIntent();
         upDetails = (TextView)findViewById(R.id.upload);
         nextB = (Button) findViewById(R.id.viewButton);
-        progressB = (ProgressBar) findViewById(R.id.progressBar);
+        progressB = (ProgressBar) findViewById(R.id.progressBarUpload);
         voter = (Voter) g.getSerializableExtra("Voter");
         partyID = g.getIntExtra("PARTYID", 10);
         if(partyID == 10)
