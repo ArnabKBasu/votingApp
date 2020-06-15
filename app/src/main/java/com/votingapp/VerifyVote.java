@@ -1,3 +1,7 @@
+/*
+ * Author: Ranajit Roy, Arunava Chakraborty
+ */
+
 package com.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;

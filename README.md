@@ -22,7 +22,7 @@ Start Apache and MySql
 Then import the sql files in the "databases.zip" with the import option in respective databases
 
 
-4. InstallAdd the path of the jar file to CLASSPATH ENVIRONMENTAL VARIABLE (If CLASSPATH is not present then create one)
+4. Add the path of the jar file to CLASSPATH ENVIRONMENTAL VARIABLE (not PATH) (If CLASSPATH is not present then create one)
 (Also add another path "."(without quotation) to CLASSPATH)
 
 

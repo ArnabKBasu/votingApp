@@ -1,3 +1,7 @@
+/*
+ * Author: Abhishek Mukherjee
+ */
+
 package com.votingapp;
 
 import android.view.View;

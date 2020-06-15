@@ -1,3 +1,7 @@
+/*
+ * Author: Ranajit Roy
+ */
+
 package com.votingapp;
 
 import android.app.Application;

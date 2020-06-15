@@ -1,3 +1,7 @@
+/*
+ * Author: Arnab Kumar Basu, Ranajit Roy
+ */
+
 package com.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
