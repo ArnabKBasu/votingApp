@@ -1,3 +1,7 @@
+/*
+ * Author: Ranajit Roy, Abhishek Mukherjee
+ */
+
 package com.votingapp.entities;
 
 //import android.os.Build;

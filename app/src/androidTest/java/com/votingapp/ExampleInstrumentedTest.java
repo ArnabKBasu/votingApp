@@ -1,4 +1,7 @@
 package com.votingapp;
+/*
+ * Author: Abhishek Mukherjee
+ */
 
 import android.content.Context;
 

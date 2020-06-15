@@ -1,3 +1,8 @@
+/*
+ * Author: Arnab Kumar Basu
+ */
+
+
 package com.votingapp;
 
 import android.Manifest;

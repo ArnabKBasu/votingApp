@@ -1,3 +1,7 @@
+/*
+ * Author: Abhishek Mukherjee, Arunava Chakraborty
+ */
+
 package com.votingapp;
 
 import androidx.appcompat.app.AppCompatActivity;

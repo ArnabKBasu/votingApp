@@ -1,3 +1,7 @@
+/*
+ * Author: Arnab Kumar Basu, Ranajit Roy, Abhishek Mukherjee
+ */
+
 package com.votingapp;
 
 import android.app.Activity;

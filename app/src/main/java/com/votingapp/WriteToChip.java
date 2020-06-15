@@ -1,3 +1,7 @@
+/*
+ * Author: Arnab Kumar Basu, Ranajit Roy
+ */
+
 package com.votingapp;
 
 import androidx.annotation.RequiresApi;
@@ -25,6 +29,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -66,7 +73,7 @@ public class WriteToChip extends AppCompatActivity {
             pBar.setVisibility(View.INVISIBLE);
             finish();
         }
-        str = voter.getEpic_no() + "$" + partyID;
+        str = ConvertSHA1Hash(voter.getEpic_no() + "$" + partyID);
 
         try {
             if(!externalMemoryAvailable()){
@@ -263,5 +270,42 @@ public class WriteToChip extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Toast.makeText(WriteToChip.this, "Not Allowed", Toast.LENGTH_LONG).show();
+    }
+
+    String ConvertSHA1Hash( String toHash )
+    {
+        String hash = null;
+        try
+        {
+            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
+            byte[] bytes = toHash.getBytes("UTF-8");
+            digest.update(bytes, 0, bytes.length);
+            bytes = digest.digest();
+
+            // This is ~55x faster than looping and String.formating()
+            hash = bytesToHex( bytes );
+        }
+        catch( NoSuchAlgorithmException e )
+        {
+            e.printStackTrace();
+        }
+        catch( UnsupportedEncodingException e )
+        {
+            e.printStackTrace();
+        }
+        return hash;
+    }
+
+    final protected static char[] hexArray = "0123456789abcdef".toCharArray();
+    public static String bytesToHex( byte[] bytes )
+    {
+        char[] hexChars = new char[ bytes.length * 2 ];
+        for( int j = 0; j < bytes.length; j++ )
+        {
+            int v = bytes[ j ] & 0xFF;
+            hexChars[ j * 2 ] = hexArray[ v >>> 4 ];
+            hexChars[ j * 2 + 1 ] = hexArray[ v & 0x0F ];
+        }
+        return new String( hexChars );
     }
 }

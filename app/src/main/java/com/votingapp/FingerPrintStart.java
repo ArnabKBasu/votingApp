@@ -1,3 +1,7 @@
+/*
+ * Author: Arnab Kumar Basu
+ */
+
 package com.votingapp;
 
 import androidx.annotation.RequiresApi;
